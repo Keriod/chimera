@@ -222,7 +222,7 @@ _data = {
 script = ExtResource("1_5lv3y")
 
 [node name="SlimeNormalIdle" type="Sprite2D" parent="."]
-scale = Vector2(0.95605, 1)
+scale = Vector2(2, 2.092)
 texture = ExtResource("1_03rqu")
 hframes = 7
 

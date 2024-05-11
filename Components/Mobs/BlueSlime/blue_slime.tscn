@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://qkbjudgu7fbj"]
+[gd_scene load_steps=32 format=3 uid="uid://qkbjudgu7fbj"]
 
 [ext_resource type="Script" path="res://Components/Mobs/BlueSlime/blue_slime.gd" id="1_nar73"]
 [ext_resource type="Texture2D" uid="uid://0gcisbtoxe2f" path="res://Components/Mobs/BlueSlime/slime-attack-0.png" id="1_qrmc3"]
@@ -26,6 +26,7 @@
 [ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/compound_state.gd" id="24_wwsh7"]
 [ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/atomic_state.gd" id="25_c6irw"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://Addons/statechars/addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="26_yqav8"]
+[ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/transition.gd" id="27_jjoxx"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gdk7k"]
 animations = [{
@@ -119,11 +120,15 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1ewaq"]
-radius = 167.0
+radius = 330.006
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vdayk"]
-radius = 6.0
-height = 24.0
+radius = 12.0
+height = 48.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hedg8"]
+radius = 19.0
+height = 64.0
 
 [node name="BlueSlime" type="Node2D"]
 script = ExtResource("1_nar73")
@@ -136,20 +141,25 @@ offset_bottom = 194.0
 initial_node_to_watch = NodePath("../StateChart")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_gdk7k")
 animation = &"move"
-frame_progress = 0.0682625
+frame_progress = 0.968329
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="visibility_area" type="Area2D" parent="."]
+collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="visibility_area"]
+light_mask = 0
 position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_1ewaq")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 2
+collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-position = Vector2(0, 5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, 12)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_vdayk")
 
@@ -163,11 +173,31 @@ initial_state = NodePath("Idle")
 [node name="Idle" type="Node" parent="StateChart/CompoundState"]
 script = ExtResource("25_c6irw")
 
+[node name="to_move" type="Node" parent="StateChart/CompoundState/Idle"]
+script = ExtResource("27_jjoxx")
+to = NodePath("../../Move")
+event = &"player_spotted"
+
 [node name="Move" type="Node" parent="StateChart/CompoundState"]
 script = ExtResource("25_c6irw")
 
+[node name="to_idle" type="Node" parent="StateChart/CompoundState/Move"]
+script = ExtResource("27_jjoxx")
+to = NodePath("../../Idle")
+event = &"player_lost"
+
+[node name="to_attack" type="Node" parent="StateChart/CompoundState/Move"]
+script = ExtResource("27_jjoxx")
+to = NodePath("../../Attack")
+event = &"attack_zone_entered"
+
 [node name="Attack" type="Node" parent="StateChart/CompoundState"]
 script = ExtResource("25_c6irw")
+
+[node name="to_move" type="Node" parent="StateChart/CompoundState/Attack"]
+script = ExtResource("27_jjoxx")
+to = NodePath("../../Move")
+event = &"attack_zone_exited"
 
 [node name="Die" type="Node" parent="StateChart/CompoundState"]
 script = ExtResource("25_c6irw")
@@ -175,9 +205,21 @@ script = ExtResource("25_c6irw")
 [node name="Hurt" type="Node" parent="StateChart/CompoundState"]
 script = ExtResource("25_c6irw")
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[node name="attack_area" type="Area2D" parent="."]
+position = Vector2(0, 12)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_area"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_hedg8")
+
+[connection signal="area_entered" from="visibility_area" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="visibility_area" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="visibility_area" to="." method="_on_area_2d_body_exited"]
 [connection signal="state_entered" from="StateChart/CompoundState/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/CompoundState/Move" to="." method="_on_move_state_entered"]
 [connection signal="state_entered" from="StateChart/CompoundState/Attack" to="." method="_on_attack_state_entered"]
 [connection signal="state_entered" from="StateChart/CompoundState/Die" to="." method="_on_die_state_entered"]
 [connection signal="state_entered" from="StateChart/CompoundState/Hurt" to="." method="_on_hurt_state_entered"]
+[connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="attack_area" to="." method="_on_attack_area_body_exited"]
