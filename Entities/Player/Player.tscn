@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmj8p3n31005c"]
+
+[ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_bvwk4"]
+[ext_resource type="PackedScene" uid="uid://bp5nmydk6pkvf" path="res://Components/Chimera/Chimera.tscn" id="1_c43pb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v6y0c"]
+radius = 9.05539
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_bvwk4")
+
+[node name="Chimera" parent="." instance=ExtResource("1_c43pb")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-7, 3)
+shape = SubResource("CircleShape2D_v6y0c")
+
+[node name="Camera2D" type="Camera2D" parent="."]
