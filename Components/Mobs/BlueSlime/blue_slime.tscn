@@ -1,0 +1,183 @@
+[gd_scene load_steps=30 format=3 uid="uid://qkbjudgu7fbj"]
+
+[ext_resource type="Script" path="res://Components/Mobs/BlueSlime/blue_slime.gd" id="1_nar73"]
+[ext_resource type="Texture2D" uid="uid://0gcisbtoxe2f" path="res://Components/Mobs/BlueSlime/slime-attack-0.png" id="1_qrmc3"]
+[ext_resource type="Texture2D" uid="uid://ckps8ikcq4k81" path="res://Components/Mobs/BlueSlime/slime-attack-1.png" id="2_yb4nu"]
+[ext_resource type="Texture2D" uid="uid://c6f5e3nsyg5tf" path="res://Components/Mobs/BlueSlime/slime-attack-2.png" id="3_p66h7"]
+[ext_resource type="Texture2D" uid="uid://di4oirgt8qn7d" path="res://Components/Mobs/BlueSlime/slime-attack-3.png" id="4_78kh6"]
+[ext_resource type="Texture2D" uid="uid://c4sgcbe4bacok" path="res://Components/Mobs/BlueSlime/slime-attack-4.png" id="5_8s5yv"]
+[ext_resource type="Texture2D" uid="uid://lc0vyxhit8gp" path="res://Components/Mobs/BlueSlime/slime-die-0.png" id="6_ii5n8"]
+[ext_resource type="Texture2D" uid="uid://bowkrc6hlq3ju" path="res://Components/Mobs/BlueSlime/slime-die-1.png" id="7_kcmq6"]
+[ext_resource type="Texture2D" uid="uid://bhhn05vqq8e6e" path="res://Components/Mobs/BlueSlime/slime-die-2.png" id="8_8wndd"]
+[ext_resource type="Texture2D" uid="uid://btnd0ktlq8m3v" path="res://Components/Mobs/BlueSlime/slime-die-3.png" id="9_421tb"]
+[ext_resource type="Texture2D" uid="uid://bbuifr6hvlfgi" path="res://Components/Mobs/BlueSlime/slime-hurt-0.png" id="10_kgp4x"]
+[ext_resource type="Texture2D" uid="uid://c51j2i08u1dx" path="res://Components/Mobs/BlueSlime/slime-hurt-1.png" id="11_8q8l7"]
+[ext_resource type="Texture2D" uid="uid://dexnw8ruqkwtv" path="res://Components/Mobs/BlueSlime/slime-hurt-2.png" id="12_o1how"]
+[ext_resource type="Texture2D" uid="uid://c256m7t3mwtsf" path="res://Components/Mobs/BlueSlime/slime-hurt-3.png" id="13_wbixj"]
+[ext_resource type="Texture2D" uid="uid://dn52l2rin1n6i" path="res://Components/Mobs/BlueSlime/slime-idle-0.png" id="14_bnd51"]
+[ext_resource type="Texture2D" uid="uid://dgigr0lrr5unb" path="res://Components/Mobs/BlueSlime/slime-idle-1.png" id="15_xg0sd"]
+[ext_resource type="Texture2D" uid="uid://pwhyuxwh20ab" path="res://Components/Mobs/BlueSlime/slime-idle-2.png" id="16_0ute3"]
+[ext_resource type="Texture2D" uid="uid://cpmoixjrkeqgs" path="res://Components/Mobs/BlueSlime/slime-idle-3.png" id="17_c3ort"]
+[ext_resource type="Texture2D" uid="uid://dl4x3b15rq6fg" path="res://Components/Mobs/BlueSlime/slime-move-0.png" id="18_bp60t"]
+[ext_resource type="Texture2D" uid="uid://c5x6yugvk1ii3" path="res://Components/Mobs/BlueSlime/slime-move-1.png" id="19_62wgq"]
+[ext_resource type="Texture2D" uid="uid://ouo5ghkxry7v" path="res://Components/Mobs/BlueSlime/slime-move-2.png" id="20_kdbul"]
+[ext_resource type="Texture2D" uid="uid://bgm24nhhwi4fy" path="res://Components/Mobs/BlueSlime/slime-move-3.png" id="21_dkpma"]
+[ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/state_chart.gd" id="23_ysumv"]
+[ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/compound_state.gd" id="24_wwsh7"]
+[ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/atomic_state.gd" id="25_c6irw"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://Addons/statechars/addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="26_yqav8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gdk7k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_qrmc3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_yb4nu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_p66h7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_78kh6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_8s5yv")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ii5n8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_kcmq6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8wndd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_421tb")
+}],
+"loop": true,
+"name": &"die",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_kgp4x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_8q8l7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_o1how")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_wbixj")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_bnd51")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_xg0sd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_0ute3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_c3ort")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("18_bp60t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_62wgq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_kdbul")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_dkpma")
+}],
+"loop": true,
+"name": &"move",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ewaq"]
+radius = 167.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vdayk"]
+radius = 6.0
+height = 24.0
+
+[node name="BlueSlime" type="Node2D"]
+script = ExtResource("1_nar73")
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("26_yqav8")]
+offset_left = 124.0
+offset_top = -166.0
+offset_right = 408.0
+offset_bottom = 194.0
+initial_node_to_watch = NodePath("../StateChart")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gdk7k")
+animation = &"move"
+frame_progress = 0.0682625
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 5)
+shape = SubResource("CircleShape2D_1ewaq")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(0, 5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_vdayk")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("23_ysumv")
+
+[node name="CompoundState" type="Node" parent="StateChart"]
+script = ExtResource("24_wwsh7")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("25_c6irw")
+
+[node name="Move" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("25_c6irw")
+
+[node name="Attack" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("25_c6irw")
+
+[node name="Die" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("25_c6irw")
+
+[node name="Hurt" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("25_c6irw")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="state_entered" from="StateChart/CompoundState/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_entered" from="StateChart/CompoundState/Move" to="." method="_on_move_state_entered"]
+[connection signal="state_entered" from="StateChart/CompoundState/Attack" to="." method="_on_attack_state_entered"]
+[connection signal="state_entered" from="StateChart/CompoundState/Die" to="." method="_on_die_state_entered"]
+[connection signal="state_entered" from="StateChart/CompoundState/Hurt" to="." method="_on_hurt_state_entered"]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dufuv2ejxscom"]
+[gd_scene load_steps=3 format=3 uid="uid://dufuv2ejxscom"]
 
 [ext_resource type="PackedScene" uid="uid://cmj8p3n31005c" path="res://Entities/Player/Player.tscn" id="1_sdjj1"]
+[ext_resource type="PackedScene" uid="uid://qkbjudgu7fbj" path="res://Components/Mobs/BlueSlime/blue_slime.tscn" id="2_bo1ny"]
 
 [node name="StartedGame" type="Node2D"]
 y_sort_enabled = true
@@ -9,7 +10,7 @@ y_sort_enabled = true
 layer = -1
 follow_viewport_enabled = true
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = -1
 anchor_left = -0.0451389
 anchor_top = -0.279321
@@ -22,3 +23,7 @@ offset_bottom = 34.9999
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("1_sdjj1")]
+position = Vector2(-406, -135)
+
+[node name="BlueSlime" parent="." instance=ExtResource("2_bo1ny")]
+position = Vector2(-250, -112)
