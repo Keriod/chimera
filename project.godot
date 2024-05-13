@@ -15,6 +15,10 @@ run/main_scene="res://Scenes/StartedGame.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Interface="*res://interface.gd"
+
 [debug]
 
 gdscript/warnings/native_method_override=1

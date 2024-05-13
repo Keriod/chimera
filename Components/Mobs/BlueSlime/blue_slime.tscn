@@ -28,6 +28,10 @@
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://Addons/statechars/addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="26_yqav8"]
 [ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/transition.gd" id="27_jjoxx"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vdayk"]
+radius = 12.0
+height = 48.0
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_gdk7k"]
 animations = [{
 "frames": [{
@@ -122,15 +126,14 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_1ewaq"]
 radius = 330.006
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vdayk"]
-radius = 12.0
-height = 48.0
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hedg8"]
 radius = 19.0
 height = 64.0
 
-[node name="BlueSlime" type="Node2D"]
+[node name="BlueSlime" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
 script = ExtResource("1_nar73")
 
 [node name="StateChartDebugger" parent="." instance=ExtResource("26_yqav8")]
@@ -139,6 +142,11 @@ offset_top = -166.0
 offset_right = 408.0
 offset_bottom = 194.0
 initial_node_to_watch = NodePath("../StateChart")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_vdayk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
@@ -154,14 +162,13 @@ light_mask = 0
 position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_1ewaq")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-collision_layer = 2
-collision_mask = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="attack_area" type="Area2D" parent="."]
 position = Vector2(0, 12)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_area"]
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_vdayk")
+shape = SubResource("CapsuleShape2D_hedg8")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("23_ysumv")
@@ -205,21 +212,12 @@ script = ExtResource("25_c6irw")
 [node name="Hurt" type="Node" parent="StateChart/CompoundState"]
 script = ExtResource("25_c6irw")
 
-[node name="attack_area" type="Area2D" parent="."]
-position = Vector2(0, 12)
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_area"]
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_hedg8")
-
-[connection signal="area_entered" from="visibility_area" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="visibility_area" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="visibility_area" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="attack_area" to="." method="_on_attack_area_body_exited"]
 [connection signal="state_entered" from="StateChart/CompoundState/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/CompoundState/Move" to="." method="_on_move_state_entered"]
 [connection signal="state_entered" from="StateChart/CompoundState/Attack" to="." method="_on_attack_state_entered"]
 [connection signal="state_entered" from="StateChart/CompoundState/Die" to="." method="_on_die_state_entered"]
 [connection signal="state_entered" from="StateChart/CompoundState/Hurt" to="." method="_on_hurt_state_entered"]
-[connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]
-[connection signal="body_exited" from="attack_area" to="." method="_on_attack_area_body_exited"]

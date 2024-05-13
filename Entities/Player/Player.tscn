@@ -1,12 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://cmj8p3n31005c"]
+[gd_scene load_steps=7 format=3 uid="uid://cmj8p3n31005c"]
 
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_bvwk4"]
 [ext_resource type="PackedScene" uid="uid://bp5nmydk6pkvf" path="res://Components/Chimera/Chimera.tscn" id="1_c43pb"]
+[ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/state_chart.gd" id="3_0uwvg"]
+[ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/compound_state.gd" id="4_oo87q"]
+[ext_resource type="Script" path="res://Addons/statechars/addons/godot_state_charts/atomic_state.gd" id="5_1v6vp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v6y0c"]
 radius = 20.0
 
 [node name="Player" type="CharacterBody2D"]
+disable_mode = 1
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_bvwk4")
 
 [node name="Chimera" parent="." instance=ExtResource("1_c43pb")]
@@ -16,3 +22,20 @@ position = Vector2(-13, 5)
 shape = SubResource("CircleShape2D_v6y0c")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("3_0uwvg")
+
+[node name="CompoundState" type="Node" parent="StateChart"]
+script = ExtResource("4_oo87q")
+initial_state = NodePath("Attacked")
+
+[node name="Attacked" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("5_1v6vp")
+
+[node name="DebugHealthLabel" type="Label" parent="."]
+offset_left = -33.0
+offset_top = -39.0
+offset_right = 7.0
+offset_bottom = -16.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
